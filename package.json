@@ -1,0 +1,32 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "author": "",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-router": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "@vue/compiler-sfc": "^3.0.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "_id": "weather-app@1.0.0",
+  "license": "ISC",
+  "readme": "ERROR: No README data found!"
+}
