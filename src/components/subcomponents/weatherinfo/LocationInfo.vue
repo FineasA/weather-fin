@@ -20,7 +20,6 @@
   justify-content: space-between
   align-items: center
   width: 100%
-  max-width: 320px
   color: #f2f7f9
   .location-text
     text-align: left
