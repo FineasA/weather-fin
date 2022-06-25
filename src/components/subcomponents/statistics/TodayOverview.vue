@@ -144,11 +144,11 @@
 
 
       .grid-item#wind-speed .icon
-        background: url("../../../assets/svg/wind.svg") center / contain no-repeat
+        background: url("../../../assets/svg/weather/wind.svg") center / contain no-repeat
       .grid-item#rain-chance .icon
-        background: url("../../../assets/svg/rain.svg") center / contain no-repeat
+        background: url("../../../assets/svg/weather/rain.svg") center / contain no-repeat
       .grid-item#pressure .icon
-        background: url("../../../assets/svg/pressure.svg") center / contain no-repeat
+        background: url("../../../assets/svg/weather/pressure.svg") center / contain no-repeat
       .grid-item#uv-index .icon
-        background: url("../../../assets/svg/sun.svg") center / contain no-repeat
+        background: url("../../../assets/svg/weather/sun.svg") center / contain no-repeat
 </style>

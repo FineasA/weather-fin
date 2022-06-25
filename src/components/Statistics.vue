@@ -19,6 +19,5 @@ import AverageWeeklyTemp from '@/components/subcomponents/statistics/AverageWeek
   flex-direction: column
   align-items: center
   justify-content: center
-  max-width: 800px
   width: 100%
 </style>

@@ -7,8 +7,8 @@ import WeatherInfo from '@/components/WeatherInfo'
   <div class="container">
     <div class="wrapper">
       <Statistics/>
-      <WeatherInfo/>
     </div>
+    <WeatherInfo/>
   </div>
 </template>
 
