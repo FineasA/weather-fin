@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="search-location-container">
+    <div class="search-location-container">
     <div class="search-location-wrapper">
 
       <div class="current-date-info">
@@ -39,7 +39,6 @@
   align-items: center
   width: 100%
   padding-bottom: 20px
-  border-bottom: 1px solid $faded-grey
   .search-location-wrapper
     display: flex
     justify-content: space-between
@@ -48,15 +47,18 @@
     width: 100%
     .current-date-info
       width: 33%
+      text-align: left
       .month-muted
         color: $muted-color
     .info-container
       width: 100%
       display: flex
-      justify-content: center
+      justify-content: flex-end
       align-items: center
       gap: 20px
       .nav-tool
+        display: flex
+        justify-content: center
         width: 45px
         img
           margin: 13px
@@ -70,9 +72,10 @@
       label
         position: relative
         margin-right: 40px
+        max-width: 320px
+        width: 100%
         input
           font-size: 16px
-          max-width: 250px
           width: 100%
           padding-left: 40px
       label::before

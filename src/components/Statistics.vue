@@ -1,10 +1,13 @@
 <script setup>
 import SearchLocation from '@/components/subcomponents/statistics/SearchLocation'
+import TodayOverview from '@/components/subcomponents/statistics/TodayOverview'
 </script>
 
 <template>
   <div class="statistics-container">
     <SearchLocation/>
+    <hr class="divider"/>
+    <TodayOverview/>
   </div>
 </template>
 
