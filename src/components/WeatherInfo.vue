@@ -8,6 +8,7 @@ import WeatherDisplay from '@/components/subcomponents/weatherinfo/WeatherDispla
     <div class="weather-info-wrapper">
       <LocationInfo/>
       <WeatherDisplay/>
+      <hr class="divider"/>
     </div>
   </div>
 </template>
@@ -27,4 +28,6 @@ import WeatherDisplay from '@/components/subcomponents/weatherinfo/WeatherDispla
   .weather-info-wrapper
     max-width: 320px
     width: 100%
+    .divider
+      border: 1px solid #2e4d6c
 </style>

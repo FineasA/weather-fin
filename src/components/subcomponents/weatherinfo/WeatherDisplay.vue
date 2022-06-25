@@ -25,6 +25,7 @@
   align-items: center
   width: 100%
   margin-top: 60px
+  margin-bottom: 20px
   color: #f2f7f9
   p
     font-size: 20px
