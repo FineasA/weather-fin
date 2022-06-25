@@ -48,6 +48,8 @@
     .current-date-info
       width: 33%
       text-align: left
+      .short-month-info
+        font-weight: 900
       .month-muted
         color: $muted-color
     .info-container

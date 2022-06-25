@@ -1,6 +1,7 @@
 <script setup>
 import SearchLocation from '@/components/subcomponents/statistics/SearchLocation'
 import TodayOverview from '@/components/subcomponents/statistics/TodayOverview'
+import AverageWeeklyTemp from '@/components/subcomponents/statistics/AverageWeeklyTemp'
 </script>
 
 <template>
@@ -8,6 +9,7 @@ import TodayOverview from '@/components/subcomponents/statistics/TodayOverview'
     <SearchLocation/>
     <hr class="divider"/>
     <TodayOverview/>
+    <AverageWeeklyTemp/>
   </div>
 </template>
 

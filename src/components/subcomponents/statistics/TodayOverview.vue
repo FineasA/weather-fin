@@ -1,5 +1,4 @@
 <script setup>
-
 </script>
 
 <template>
@@ -75,7 +74,7 @@
   justify-content: center
   align-items: center
   width: 100%
-  padding: 40px 0
+  padding-top: 40px
   .today-overview-wrapper
     display: flex
     justify-content: center
