@@ -1,6 +1,7 @@
 <script setup>
 import LocationInfo from '@/components/subcomponents/weatherinfo/LocationInfo'
 import WeatherDisplay from '@/components/subcomponents/weatherinfo/WeatherDisplay'
+import Chances from '@/components/subcomponents/weatherinfo/Chances'
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import WeatherDisplay from '@/components/subcomponents/weatherinfo/WeatherDispla
       <LocationInfo/>
       <WeatherDisplay/>
       <hr class="divider"/>
+      <Chances/>
     </div>
   </div>
 </template>
