@@ -32,11 +32,14 @@
 </template>
 
 <style scoped lang="sass">
+@import "src/assets/styles/constants"
 .search-location-container
   display: flex
   justify-content: flex-start
   align-items: center
   width: 100%
+  padding-bottom: 20px
+  border-bottom: 1px solid $faded-grey
   .search-location-wrapper
     display: flex
     justify-content: space-between
@@ -46,7 +49,7 @@
     .current-date-info
       width: 33%
       .month-muted
-        color: #9e9e9e
+        color: $muted-color
     .info-container
       width: 100%
       display: flex
@@ -56,11 +59,11 @@
       .nav-tool
         width: 45px
         img
-          margin: 10px
+          margin: 13px
           filter: invert(38%) sepia(0%) saturate(0%) hue-rotate(30deg) brightness(93%) contrast(92%)
       input, .nav-tool
-        background-color: #eee
-        color: #5d5c5c
+        background-color: $faded-grey
+        color: $main-color
         height: 45px
         border-radius: 5px
         border: none
