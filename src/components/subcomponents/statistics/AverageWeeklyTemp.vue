@@ -1,12 +1,40 @@
 <script setup>
+import { ref } from 'vue'
+import { LineChart } from 'vue-chart-3'
+import { Chart, registerables } from 'chart.js'
+
+Chart.register(...registerables)
+
+const options = ref({
+  responsive: true,
+  title: {
+    display: true,
+    text: 'Chart.js Line Chart'
+  }
+})
+
+const chartStyle = {
+  backgroundColor: '#fcfbfc',
+  borderRadius: '5px',
+}
+
+const testData = {
+  labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7'],
+  datasets: [
+    {
+      data: [30, 40, 60, 70, 50, 100, 50],
+      backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
+    },
+  ]
+}
 </script>
 
 <template>
   <div class="avg-weekly-temp-container">
     <div class="avg-weekly-temp-wrapper">
       <h2>Average Weekly Temperature</h2>
-      <div>
-        test
+      <div class="chart-container">
+        <LineChart :styles="chartStyle" ref="lineChart" :chartData="testData" :options="options"/>
       </div>
     </div>
   </div>
@@ -26,4 +54,9 @@
     flex-direction: column
     width: 100%
     gap: 20px
+    .chart-container
+      width: 100%
+canvas, #line-chart
+  background-color: #fcfbfc
+  border-radius: 5px
 </style>
