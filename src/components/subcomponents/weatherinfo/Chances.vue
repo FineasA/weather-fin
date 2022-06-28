@@ -1,5 +1,4 @@
 <script setup>
-
 </script>
 
 <template>
@@ -70,7 +69,6 @@
     flex-direction: column
     justify-content: center
     gap: 10px
-    max-width: 320px
     width: 100%
     .chance-item
       display: flex

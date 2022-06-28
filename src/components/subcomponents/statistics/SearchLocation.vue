@@ -1,5 +1,12 @@
 <script setup>
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useLocationQueryStore } from '@/store/locationQuery'
 
+const { setLocation } = useLocationQueryStore()
+const { location } = storeToRefs(useLocationQueryStore())
+
+const userQuery = ref('')
 </script>
 
 <template>
@@ -16,6 +23,8 @@
           <input
             type="text"
             placeholder="Search location here"
+            v-model="userQuery"
+            @keyup.enter="setLocation(userQuery)"
           />
         </label>
 
