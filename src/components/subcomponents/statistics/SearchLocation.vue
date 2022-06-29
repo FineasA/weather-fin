@@ -1,18 +1,15 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useLocationQueryStore } from '@/store/locationQuery'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 
-const { setLocation } = useLocationQueryStore()
-const { location } = storeToRefs(useLocationQueryStore())
-
-const { requestCurrentWeather } = useCurrentWeatherStore()
+const { requestCurrentWeather, setLocation } = useCurrentWeatherStore()
+const { locationQuery } = storeToRefs(useCurrentWeatherStore())
 
 const userQuery = ref('')
 
 onBeforeMount(() => {
-  requestCurrentWeather(location.value)
+  requestCurrentWeather(locationQuery.value)
 })
 </script>
 
