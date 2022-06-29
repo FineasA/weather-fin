@@ -1,8 +1,8 @@
 <script setup>
-import LocationInfo from '@/components/subcomponents/weatherinfo/LocationInfo'
-import WeatherDisplay from '@/components/subcomponents/weatherinfo/WeatherDisplay'
-import Chances from '@/components/subcomponents/weatherinfo/Chances'
-import SunsetAndSunriseInfo from '@/components/subcomponents/weatherinfo/SunriseAndSunsetInfo'
+import LocationInfo from '@/components/subcomponents/weatherinfo/LocationInfo.vue'
+import WeatherDisplay from '@/components/subcomponents/weatherinfo/WeatherDisplay.vue'
+import Chances from '@/components/subcomponents/weatherinfo/Chances.vue'
+import SunsetAndSunriseInfo from '@/components/subcomponents/weatherinfo/SunriseAndSunsetInfo.vue'
 </script>
 
 <template>

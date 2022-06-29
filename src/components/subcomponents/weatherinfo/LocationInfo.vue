@@ -1,15 +1,18 @@
 <script setup>
+import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
+import { storeToRefs } from 'pinia'
+
+const { formattedDate, formattedLocation } = storeToRefs(useCurrentWeatherStore())
 </script>
 
 <template>
   <div class="location-info-container">
     <div class="location-text">
-      <h2>Mejasam Barat</h2>
-      <p>Tegal, Indonesia</p>
+      <h2>{{formattedLocation}}</h2>
     </div>
 
     <div class="location-time">
-      <h2>08:54 AM</h2>
+      <h2>{{ formattedDate.clockTime.toUpperCase() }}</h2>
     </div>
   </div>
 </template>
