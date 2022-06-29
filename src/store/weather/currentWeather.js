@@ -63,7 +63,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
           //formatted local time and date
           const date = new Date(location.localtime)
           this.formattedDate.clockTime = format(date, "HH:mm aaaaa'm'")
-          this.formattedDate.monthAndYear = format(date, 'MMMMMMM, y')
+          this.formattedDate.monthAndYear = format(date, 'MMMMMMM y')
           this.formattedDate.fullDate = format(date, 'eeee, MMM d, y')
 
           //format location

@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 
 const { requestCurrentWeather, setLocation } = useCurrentWeatherStore()
-const { locationQuery } = storeToRefs(useCurrentWeatherStore())
+const { locationQuery, formattedDate } = storeToRefs(useCurrentWeatherStore())
 
 const userQuery = ref('')
 
@@ -18,8 +18,8 @@ onBeforeMount(() => {
     <div class="search-location-wrapper">
 
       <div class="current-date-info">
-        <h2 class="short-month-info">January 2022</h2>
-        <p class="month-muted">Thursday, Jan 4, 2022</p>
+        <h2 class="short-month-info">{{ formattedDate.monthAndYear }}</h2>
+        <p class="month-muted">{{ formattedDate.fullDate }}</p>
       </div>
 
       <div class="info-container">
