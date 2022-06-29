@@ -2,9 +2,8 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 const requestParameter = 'current.json'
-const baseUrl = process.env.VUE_APP_WEATHER_BASE_URL
-const key = process.env.VUE_APP_WEATHER_API_KEY
-console.log(process.env)
+const baseUrl = import.meta.env.VITE_WEATHER_BASE_URL
+const key = import.meta.env.VITE_WEATHER_API_KEY
 const requestUrl = `${baseUrl}/${requestParameter}?key=${key}`
 
 export const useCurrentWeatherStore = defineStore('currentWeather', {

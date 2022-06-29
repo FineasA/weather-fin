@@ -1,7 +1,7 @@
 <script setup>
-import SearchLocation from '@/components/subcomponents/statistics/SearchLocation'
-import TodayOverview from '@/components/subcomponents/statistics/TodayOverview'
-import AverageWeeklyTemp from '@/components/subcomponents/statistics/AverageWeeklyTemp'
+import SearchLocation from '@/components/subcomponents/statistics/SearchLocation.vue'
+import TodayOverview from '@/components/subcomponents/statistics/TodayOverview.vue'
+import AverageWeeklyTemp from '@/components/subcomponents/statistics/AverageWeeklyTemp.vue'
 </script>
 
 <template>

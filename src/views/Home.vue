@@ -1,6 +1,6 @@
 <script setup>
-import Statistics from '@/components/Statistics'
-import WeatherInfo from '@/components/WeatherInfo'
+import Statistics from '@/components/Statistics.vue'
+import WeatherInfo from '@/components/WeatherInfo.vue'
 </script>
 
 <template>
