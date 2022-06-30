@@ -8,6 +8,11 @@ const { locationQuery, formattedDate } = storeToRefs(useCurrentWeatherStore())
 
 const userQuery = ref('')
 
+const search = () => {
+  setLocation(userQuery.value)
+  userQuery.value = ''
+}
+
 onBeforeMount(() => {
   requestCurrentWeather(locationQuery.value)
 })
@@ -28,7 +33,7 @@ onBeforeMount(() => {
             type="text"
             placeholder="Search location here"
             v-model="userQuery"
-            @keyup.enter="setLocation(userQuery)"
+            @keyup.enter="search"
           />
         </label>
 

@@ -1,17 +1,39 @@
 <script setup>
+import { storeToRefs } from 'pinia'
+import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
+import { computed } from 'vue'
+
+const { setTemperatureMode } = useCurrentWeatherStore()
+const { temp_c, temp_f, temp_mode, condition } = storeToRefs(useCurrentWeatherStore())
+
+const displayedTemp = computed(() => temp_mode.value === 'f' ? temp_f : temp_c)
 </script>
 
 <template>
   <div class="weather-display-container">
     <div class="weather-display-wrapper">
       <div class="weather-icon-row">
-        <img src="../../../assets/svg/weather/rain-moon.svg" alt="">
+        <img :src="condition.icon" alt="">
+
+        <div class="temp-controls">
+          <button
+            :class="{'active' : temp_mode === 'c'}"
+            @click="setTemperatureMode('c')"
+          >
+            &deg;C
+          </button>
+          <button
+            :class="{'active' : temp_mode === 'f'}"
+            @click="setTemperatureMode('f')"
+          >
+            &deg;F
+          </button>
+        </div>
       </div>
       <div class="weather-display-row">
-        <h2>20&deg;C</h2>
+        <h2>{{ displayedTemp }}&deg;{{ temp_mode.toUpperCase() }}</h2>
         <div class="weather-type">
-          <p>Dramatic</p>
-          <p>Cloudy</p>
+          <p>{{ condition.text }}</p>
         </div>
       </div>
     </div>
@@ -41,15 +63,34 @@
     align-items: center
     width: 100%
     .weather-icon-row
-      align-self: flex-start
+      display: flex
+      justify-content: space-between
+      align-items: center
+      width: 100%
       img
         height: 45px
         width: 45px
+      .temp-controls
+        display: flex
+        justify-content: center
+        align-items: center
+        max-width: 100px
+        width: 100%
+        button
+          width: 70px
+          height: 30px
+          background-color: #3a5172
+          border: 1px solid #5885ca
+          color: #fff
+          cursor: pointer
+          &.active
+            background-color: #224c87
     .weather-display-row
       display: flex
       justify-content: space-between
       align-items: center
       width: 100%
-      .weather-type
+      .weather-type p
         text-align: right
+        padding-top: 20px
 </style>
