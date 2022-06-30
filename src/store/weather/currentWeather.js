@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { format } from 'date-fns'
 import axios from 'axios'
 
-const requestParameter = 'current.json'
+const requestParameter = 'forecast.json'
 const baseUrl = import.meta.env.VITE_WEATHER_BASE_URL
 const key = import.meta.env.VITE_WEATHER_API_KEY
 const requestUrl = `${baseUrl}/${requestParameter}?key=${key}`
@@ -30,6 +30,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       monthAndYear: '',
       fullDate: '',
     },
+    forecast: {},
     formattedLocation: '',
     temp_mode: 'c'
   }),
@@ -37,17 +38,14 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     setTemperatureMode(mode) {
       this.temp_mode = mode
     },
-    async setLocation(location) {
-      this.locationQuery = location
-      await this.requestCurrentWeather(this.locationQuery)
-    },
-    async requestCurrentWeather() {
-      const q = `&q=${this.locationQuery}`
+    async requestCurrentWeather(location) {
+      const q = `&q=${location}`
       const url = requestUrl + q
       console.log('url:', url)
       await axios.get(url)
         .then(({ data }) => {
-          const { current, location } = data
+          const { current, location, forecast } = data
+          console.log('data:', forecast)
 
           this.temp_c = current.temp_c
           this.temp_f = current.temp_f

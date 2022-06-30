@@ -3,13 +3,13 @@ import { ref, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 
-const { requestCurrentWeather, setLocation } = useCurrentWeatherStore()
+const { requestCurrentWeather } = useCurrentWeatherStore()
 const { locationQuery, formattedDate } = storeToRefs(useCurrentWeatherStore())
 
 const userQuery = ref('')
 
 const search = () => {
-  setLocation(userQuery.value)
+  requestCurrentWeather(userQuery.value)
   userQuery.value = ''
 }
 
