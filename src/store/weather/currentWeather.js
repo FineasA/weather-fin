@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { format } from 'date-fns'
+import { format, getHours } from 'date-fns'
 import axios from 'axios'
 
 const requestParameter = 'forecast.json'
@@ -30,7 +30,13 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       monthAndYear: '',
       fullDate: '',
     },
-    forecast: {},
+    forecast: {
+      astro: {
+        sunrise: '',
+        sunset: ''
+      },
+      hour: []
+    },
     formattedLocation: '',
     temp_mode: 'c'
   }),
@@ -45,8 +51,8 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       await axios.get(url)
         .then(({ data }) => {
           const { current, location, forecast } = data
-          console.log('data:', forecast)
 
+          //extract current temperature data
           this.temp_c = current.temp_c
           this.temp_f = current.temp_f
           this.uv = current.uv
@@ -62,8 +68,24 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
           this.region = location.region
           this.country = location.country
 
-          //formatted local time and date
+          //set date using localtime
           const date = new Date(location.localtime)
+          const current_hour = getHours(date)
+
+          //extract forecast data
+          const { forecastday } = forecast
+          const { astro, hour } = forecastday[0]
+
+          this.forecast.astro.sunrise = astro.sunrise
+          this.forecast.astro.sunset = astro.sunset
+
+          //we only want to get all the hours that have not come to be (inclusive)
+          this.forecast.hour = hour.splice(current_hour, hour.length, 0)
+
+          //TODO: Find a minimum of forecast rows to display, if the forecast hour array is smaller than the minimum,
+          // get the forecast for the next day...
+
+          //formatted local time and date
           this.formattedDate.clockTime = format(date, "HH:mm aaaaa'm'")
           this.formattedDate.monthAndYear = format(date, 'MMMMMMM y')
           this.formattedDate.fullDate = format(date, 'eeee, MMM d, y')
