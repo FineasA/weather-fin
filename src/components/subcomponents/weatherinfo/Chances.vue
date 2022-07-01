@@ -1,60 +1,29 @@
 <script setup>
+import { format } from 'date-fns'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 
 const { forecast } = storeToRefs(useCurrentWeatherStore())
+console.log('forecast inside chances:', forecast.value)
 </script>
 
 <template>
   <div class="weather-chances-container">
     <div class="weather-chances-wrapper">
       <h2>Chances of rain</h2>
-      <div class="chance-item">
-        <p>7 PM</p>
+      <div
+        class="chance-item"
+        v-for="hour in forecast.hour"
+      >
+        <p>{{format(new Date(hour.time), 'HH a')}}</p>
 
         <div class="chance-bars">
           <div class="back-bar">
-            <div class="actual-percentage-bar"></div>
+            <div :style="{width: hour['chance_of_rain'] + '%'}" class="actual-percentage-bar"></div>
           </div>
         </div>
 
-        <p>44%</p>
-      </div>
-
-      <div class="chance-item">
-        <p>8 PM</p>
-
-        <div class="chance-bars">
-          <div class="back-bar">
-            <div class="actual-percentage-bar" style="width: 50%"></div>
-          </div>
-        </div>
-
-        <p>50%</p>
-      </div>
-
-      <div class="chance-item">
-        <p>9 PM</p>
-
-        <div class="chance-bars">
-          <div class="back-bar">
-            <div class="actual-percentage-bar" style="width: 67%"></div>
-          </div>
-        </div>
-
-        <p>67%</p>
-      </div>
-
-      <div class="chance-item">
-        <p>10 PM</p>
-
-        <div class="chance-bars">
-          <div class="back-bar">
-            <div class="actual-percentage-bar" style="width: 72%"></div>
-          </div>
-        </div>
-
-        <p>72%</p>
+        <p>{{hour['chance_of_rain']}} %</p>
       </div>
     </div>
   </div>
@@ -90,7 +59,7 @@ const { forecast } = storeToRefs(useCurrentWeatherStore())
           border-radius: 20px
           height: 100%
           .actual-percentage-bar
-            width: 44%
+            width: 0%
             background-color: #81b3ff
             border-radius: 20px
             height: 100%
