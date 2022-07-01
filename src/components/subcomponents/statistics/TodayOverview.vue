@@ -1,10 +1,39 @@
 <script setup>
+import { storeToRefs } from 'pinia'
+import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
+
+const { setMetricMode } = useCurrentWeatherStore()
+const {
+  uv,
+  wind_kph,
+  wind_mph,
+  pressure_mb,
+  pressure_in,
+  metric_system
+} = storeToRefs(useCurrentWeatherStore())
 </script>
 
 <template>
   <div class="today-overview-container">
     <div class="today-overview-wrapper">
-      <h2>Today overview</h2>
+      <div class="first-overview-row">
+        <h2>Today overview</h2>
+
+        <div class="metric-controls">
+          <button
+            :class="{'active' : metric_system === 'metric'}"
+            @click="setMetricMode('metric')"
+          >
+            met.
+          </button>
+          <button
+            :class="{'active' : metric_system === 'imperial'}"
+            @click="setMetricMode('imperial')"
+          >
+            imp.
+          </button>
+        </div>
+      </div>
       <div class="overview-grid">
 
         <div class="grid-item" id="wind-speed">
@@ -12,7 +41,7 @@
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">Wind Speed</h3>
-              <h2>12km/h</h2>
+              <h2>{{ metric_system === 'metric' ? wind_kph : wind_mph }}</h2>
             </div>
             <div class="stat-growth">
               <img class="down" src="../../../assets/svg/down-arrow.svg" alt="">
@@ -82,6 +111,20 @@
     flex-direction: column
     width: 100%
     gap: 20px
+    .first-overview-row
+      display: flex
+      justify-content: space-between
+      align-items: center
+      width: 100%
+      .metric-controls button
+        width: 70px
+        height: 30px
+        background-color: #a6c0ef
+        border: none
+        color: #fff
+        cursor: pointer
+        &.active
+          background-color: #2c70ea
     .overview-grid
       display: grid
       grid-template-columns: repeat(2, 1fr)

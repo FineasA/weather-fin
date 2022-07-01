@@ -42,11 +42,15 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       hour: []
     },
     formattedLocation: '',
-    temp_mode: 'c'
+    temp_mode: 'c',
+    metric_system: 'metric'
   }),
   actions: {
     setTemperatureMode(mode) {
       this.temp_mode = mode
+    },
+    setMetricMode(mode) {
+      this.metric_system = mode
     },
     async requestCurrentWeather(location) {
       const q = `&q=${location}`
