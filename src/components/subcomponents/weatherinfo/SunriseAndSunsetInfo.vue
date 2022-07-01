@@ -1,4 +1,19 @@
 <script setup>
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
+
+const { forecast } = storeToRefs(useCurrentWeatherStore())
+
+const sunrise_text = computed(() =>
+  forecast.value.astro.hours_to_sunrise < 0 ?
+    `${Math.abs(forecast.value.astro.hours_to_sunrise)} hours ago` :
+    `in ${forecast.value.astro.hours_to_sunrise} hours`)
+
+const sunset_text = computed(() =>
+  forecast.value.astro.hours_to_sunset < 0 ?
+    `${Math.abs(forecast.value.astro.hours_to_sunset)} hours ago` :
+    `in ${forecast.value.astro.hours_to_sunset} hours`)
 </script>
 
 <template>
@@ -10,11 +25,11 @@
         <img src="../../../assets/svg/weather/sun.svg" alt="">
         <div class="text">
           <p>Sunrise</p>
-          <p class="time">4:20 AM</p>
+          <p class="time">{{ forecast.astro.sunrise }}</p>
         </div>
 
         <div class="time-estimation">
-          <p>4 hours ago</p>
+          <p>{{ sunrise_text }}</p>
         </div>
       </div>
 
@@ -22,10 +37,10 @@
         <img src="../../../assets/svg/weather/sunset.svg" alt="">
         <div class="text">
           <p>Sunset</p>
-          <p class="time">5:50 PM</p>
+          <p class="time">{{ forecast.astro.sunset }}</p>
         </div>
 
-        <div class="time-estimation">in 9 hours</div>
+        <div class="time-estimation">{{ sunset_text }}</div>
       </div>
     </div>
   </div>
@@ -67,6 +82,7 @@
         background-color: #224c87
         height: 80px
         .text
+          text-align: left
           .time
             font-weight: 500
         img

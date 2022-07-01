@@ -1,4 +1,8 @@
 <script setup>
+import { storeToRefs } from 'pinia'
+import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
+
+const { forecast } = storeToRefs(useCurrentWeatherStore())
 </script>
 
 <template>

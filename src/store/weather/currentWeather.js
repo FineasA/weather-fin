@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { format, getHours } from 'date-fns'
+import { format, getHours, differenceInHours } from 'date-fns'
 import axios from 'axios'
 
 const requestParameter = 'forecast.json'
@@ -33,7 +33,11 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     forecast: {
       astro: {
         sunrise: '',
-        sunset: ''
+        sunset: '',
+        sunrise_date: null,
+        sunset_date: null,
+        hours_to_sunrise: 0,
+        hours_to_sunset: 0
       },
       hour: []
     },
@@ -47,7 +51,6 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     async requestCurrentWeather(location) {
       const q = `&q=${location}`
       const url = requestUrl + q
-      console.log('url:', url)
       await axios.get(url)
         .then(({ data }) => {
           const { current, location, forecast } = data
@@ -79,6 +82,15 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
           this.forecast.astro.sunrise = astro.sunrise
           this.forecast.astro.sunset = astro.sunset
 
+          //convert sunset and sunrise times to valid date objects
+          const sunset_date_str = (forecastday[0].date + ' ' + astro.sunset).toString()
+          const sunrise_date_str = (forecastday[0].date + ' ' + astro.sunrise).toString()
+          this.forecast.astro.sunrise_date = new Date(sunrise_date_str)
+          this.forecast.astro.sunset_date = new Date(sunset_date_str)
+
+          this.forecast.astro.hours_to_sunrise = differenceInHours(this.forecast.astro.sunrise_date, date)
+          this.forecast.astro.hours_to_sunset = differenceInHours(this.forecast.astro.sunset_date, date)
+
           //we only want to get all the hours that have not come to be (inclusive)
           this.forecast.hour = hour.splice(current_hour, hour.length, 0)
 
@@ -91,7 +103,6 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
           this.formattedDate.fullDate = format(date, 'eeee, MMM d, y')
 
           //format location
-          console.log(location.name)
           this.formattedLocation = location.name + (location.region ? `, ${location.region}` : '')
         })
     }
