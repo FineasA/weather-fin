@@ -27,6 +27,18 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
         text: ''
       },
     },
+    location: {
+      local_time: '',
+      city: '',
+      region: '',
+      country: '',
+      formattedDate: {
+        clockTime: '',
+        monthAndYear: '',
+        fullDate: ''
+      },
+      formattedLocation: '',
+    },
     temp_c: 0,
     temp_f: 0,
     uv: 0,
@@ -72,6 +84,9 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     wind_speed_mode: 'kmh',
     pressure_mode: 'pascal'
   }),
+  getters: {
+    getLocalTime: (state) => new Date(state.location.local_time)
+  },
   actions: {
     setTemperatureMode(mode) {
       this.temp_mode = mode
@@ -94,6 +109,21 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       this.current.condition.icon = current.condition.icon
       this.current.condition.text = current.condition.text
     },
+    setLocationInfo(location) {
+      this.location.local_time = location.localtime
+      this.location.city = location.name
+      this.location.region = location.region
+      this.location.country = location.country
+
+      //format location
+      this.location.formattedLocation = location.name + (location.region ? `, ${location.region}` : '')
+    },
+    formatTime() {
+      //formatted local time and date
+      this.location.formattedDate.clockTime = format(this.getLocalTime, "HH:mm aaaaa'm'")
+      this.location.formattedDate.monthAndYear = format(this.getLocalTime, 'MMMMMMM y')
+      this.location.formattedDate.fullDate = format(this.getLocalTime, 'eeee, MMM d, y')
+    },
     async requestCurrentWeather(location) {
       const q = `&q=${location}&days=2`
       const url = requestUrl + q
@@ -102,11 +132,8 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
           const { current, location, forecast } = data
 
           this.setCurrentWeather(current)
-
-          this.local_time = location.localtime
-          this.city = location.name
-          this.region = location.region
-          this.country = location.country
+          this.setLocationInfo(location)
+          this.formatTime()
 
           //set date using localtime
           const date = new Date(location.localtime)
@@ -131,16 +158,6 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
           //we only want to get all the hours that have not come to be (inclusive)
           this.forecast.hour = hour.splice(current_hour, hour.length, 0)
 
-          //TODO: Find a minimum of forecast rows to display, if the forecast hour array is smaller than the minimum,
-          // get the forecast for the next day...
-
-          //formatted local time and date
-          this.formattedDate.clockTime = format(date, "HH:mm aaaaa'm'")
-          this.formattedDate.monthAndYear = format(date, 'MMMMMMM y')
-          this.formattedDate.fullDate = format(date, 'eeee, MMM d, y')
-
-          //format location
-          this.formattedLocation = location.name + (location.region ? `, ${location.region}` : '')
         })
     }
   }
