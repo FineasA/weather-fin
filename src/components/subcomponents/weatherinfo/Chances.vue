@@ -12,7 +12,7 @@ const { forecast } = storeToRefs(useCurrentWeatherStore())
       <h2>Chances of rain</h2>
       <div
         class="chance-item"
-        v-for="hour in forecast.hour"
+        v-for="hour in forecast.hourly_data"
       >
         <p>{{format(new Date(hour.time), 'HH a')}}</p>
 
