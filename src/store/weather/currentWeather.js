@@ -143,11 +143,12 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       //get all hours from forecastday obj
       const hours = forecastday.map(forecast => forecast.hour)
       hours[0] = hours[0].splice(current_hour, hour.length, 0)
+      const flattened = hours.flat()
 
       this.setForecastAstro(astro, date)
 
       //we only want to get all the hours that have not come to be (inclusive)
-      this.forecast.hour = hours
+      this.forecast.hour = flattened
     },
     setForecastAstro(astro, date) {
       this.forecast.astro.sunrise = astro.sunrise
