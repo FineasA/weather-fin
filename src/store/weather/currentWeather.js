@@ -138,22 +138,30 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     setForecast(forecastday) {
       //set date using localtime
       const current_hour = getHours(this.getLocalTime)
-      const { astro, hour } = forecastday[0]
+      const { astro, hour, date } = forecastday[0]
 
+      //get all hours from forecastday obj
+      const hours = forecastday.map(forecast => forecast.hour)
+      hours[0] = hours[0].splice(current_hour, hour.length, 0)
+      const flattened = hours.flat()
+
+      this.setForecastAstro(astro, date)
+
+      //we only want to get all the hours that have not come to be (inclusive)
+      this.forecast.hour = flattened
+    },
+    setForecastAstro(astro, date) {
       this.forecast.astro.sunrise = astro.sunrise
       this.forecast.astro.sunset = astro.sunset
 
       //convert sunset and sunrise times to valid date objects
-      const sunset_date_str = (forecastday[0].date + ' ' + astro.sunset).toString()
-      const sunrise_date_str = (forecastday[0].date + ' ' + astro.sunrise).toString()
+      const sunset_date_str = (date + ' ' + astro.sunset).toString()
+      const sunrise_date_str = (date + ' ' + astro.sunrise).toString()
       this.forecast.astro.sunrise_date = new Date(sunrise_date_str)
       this.forecast.astro.sunset_date = new Date(sunset_date_str)
 
       this.forecast.astro.hours_to_sunrise = differenceInHours(this.forecast.astro.sunrise_date, this.getLocalTime)
       this.forecast.astro.hours_to_sunset = differenceInHours(this.forecast.astro.sunset_date, this.getLocalTime)
-
-      //we only want to get all the hours that have not come to be (inclusive)
-      this.forecast.hour = hour.splice(current_hour, hour.length, 0)
     },
     setDailyWeather(forecastday) {
       const { day } = forecastday[0]
