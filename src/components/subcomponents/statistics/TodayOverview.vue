@@ -145,15 +145,16 @@ const {
           button:first-child
             border-top-left-radius: 5px
             border-bottom-left-radius: 5px
+            border-right: none
           button:last-child
             border-top-right-radius: 5px
             border-bottom-right-radius: 5px
+            border-left: none
           button
             display: flex
             justify-content: center
             align-items: center
             padding: 15px
-            font-weight: bold
             height: 25px
             width: 60px
             background-color: #9eacc7
