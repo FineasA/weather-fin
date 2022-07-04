@@ -83,6 +83,22 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     getLocalTime: (state) => new Date(state.location.local_time)
   },
   actions: {
+    async requestCurrentWeather(location) {
+      const q = `&q=${location}&days=2`
+      const url = requestUrl + q
+      await axios.get(url)
+        .then(({ data }) => {
+          const { current, location, forecast } = data
+          //extract forecast data
+          const { forecastday } = forecast
+
+          this.setCurrentWeather(current)
+          this.setLocationInfo(location)
+          this.formatTime()
+          this.setForecast(forecastday)
+          this.setDailyWeather(forecastday)
+        })
+    },
     setTemperatureMode(mode) {
       this.temp_mode = mode
     },
@@ -177,22 +193,6 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       this.daily.totalprecip_in = totalprecip_in
       this.daily.totalprecip_mm = totalprecip_mm
       this.daily.uv = uv
-    },
-    async requestCurrentWeather(location) {
-      const q = `&q=${location}&days=2`
-      const url = requestUrl + q
-      await axios.get(url)
-        .then(({ data }) => {
-          const { current, location, forecast } = data
-          //extract forecast data
-          const { forecastday } = forecast
-
-          this.setCurrentWeather(current)
-          this.setLocationInfo(location)
-          this.formatTime()
-          this.setForecast(forecastday)
-          this.setDailyWeather(forecastday)
-        })
     }
   }
 })
