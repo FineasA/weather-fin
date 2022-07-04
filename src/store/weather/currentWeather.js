@@ -66,7 +66,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       this.pressure_mode = mode
     },
     async requestCurrentWeather(location) {
-      const q = `&q=${location}`
+      const q = `&q=${location}&days=2`
       const url = requestUrl + q
       await axios.get(url)
         .then(({ data }) => {

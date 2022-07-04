@@ -166,12 +166,13 @@ const {
       display: grid
       grid-template-columns: repeat(2, 1fr)
       grid-template-rows: repeat(2, 1fr)
-      grid-gap: 10px
+      grid-gap: 20px 40px
       width: 100%
       .grid-item
         display: flex
         justify-content: center
         align-items: center
+        padding: 10px
         width: 100%
         height: 115px
         background-color: $faded-grey
@@ -229,4 +230,9 @@ const {
         background: url("../../../assets/svg/weather/pressure.svg") center / contain no-repeat
       .grid-item#uv-index .icon
         background: url("../../../assets/svg/weather/sun.svg") center / contain no-repeat
+
+@media screen and (max-width: 1200px)
+  .today-overview-container .today-overview-wrapper .overview-grid
+    grid-template-columns: repeat(1, 1fr)
+    grid-gap: 10px
 </style>
