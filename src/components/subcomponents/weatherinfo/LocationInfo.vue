@@ -2,17 +2,17 @@
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 import { storeToRefs } from 'pinia'
 
-const { formattedDate, formattedLocation } = storeToRefs(useCurrentWeatherStore())
+const { location } = storeToRefs(useCurrentWeatherStore())
 </script>
 
 <template>
   <div class="location-info-container">
     <div class="location-text">
-      <h2>{{formattedLocation}}</h2>
+      <h2>{{location.formattedLocation}}</h2>
     </div>
 
     <div class="location-time">
-      <h2>{{ formattedDate.clockTime.toUpperCase() }}</h2>
+      <h2>{{ location.formattedDate.clockTime.toUpperCase() }}</h2>
     </div>
   </div>
 </template>

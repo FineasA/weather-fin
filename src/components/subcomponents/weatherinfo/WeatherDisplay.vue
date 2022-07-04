@@ -4,16 +4,16 @@ import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 import { computed } from 'vue'
 
 const { setTemperatureMode } = useCurrentWeatherStore()
-const { temp_c, temp_f, temp_mode, condition } = storeToRefs(useCurrentWeatherStore())
+const { current, temp_mode } = storeToRefs(useCurrentWeatherStore())
 
-const displayedTemp = computed(() => temp_mode.value === 'f' ? temp_f : temp_c)
+const displayedTemp = computed(() => temp_mode.value === 'f' ? current.value.temp_f : current.value.temp_c)
 </script>
 
 <template>
   <div class="weather-display-container">
     <div class="weather-display-wrapper">
       <div class="weather-icon-row">
-        <img :src="condition.icon" alt="">
+        <img :src="current.condition.icon" alt="">
 
         <div class="temp-controls">
           <button
@@ -33,7 +33,7 @@ const displayedTemp = computed(() => temp_mode.value === 'f' ? temp_f : temp_c)
       <div class="weather-display-row">
         <h2>{{ displayedTemp }}&deg;{{ temp_mode.toUpperCase() }}</h2>
         <div class="weather-type">
-          <p>{{ condition.text }}</p>
+          <p>{{ current.condition.text }}</p>
         </div>
       </div>
     </div>
