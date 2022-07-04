@@ -18,10 +18,6 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       wind_mph: 0,
       pressure_in: 0,
       pressure_mb: 0,
-      local_time: '',
-      city: '',
-      region: '',
-      country: '',
       condition: {
         icon: '',
         text: ''
@@ -79,7 +75,6 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
         }
       ]
     },
-    formattedLocation: '',
     temp_mode: 'c',
     wind_speed_mode: 'kmh',
     pressure_mode: 'pascal'
@@ -97,26 +92,26 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     setPressureMode(mode) {
       this.pressure_mode = mode
     },
-    setCurrentWeather(current) {
+    setCurrentWeather({ temp_c, temp_f, uv, wind_kph, wind_mph, pressure_in, pressure_mb, condition }) {
       //extract current temperature data
-      this.current.temp_c = current.temp_c
-      this.current.temp_f = current.temp_f
-      this.current.uv = current.uv
-      this.current.wind_kph = current.wind_kph
-      this.current.wind_mph = current.wind_mph
-      this.current.pressure_in = current.pressure_in
-      this.current.pressure_mb = current.pressure_mb
-      this.current.condition.icon = current.condition.icon
-      this.current.condition.text = current.condition.text
+      this.current.temp_c = temp_c
+      this.current.temp_f = temp_f
+      this.current.uv = uv
+      this.current.wind_kph = wind_kph
+      this.current.wind_mph = wind_mph
+      this.current.pressure_in = pressure_in
+      this.current.pressure_mb = pressure_mb
+      this.current.condition.icon = condition.icon
+      this.current.condition.text = condition.text
     },
-    setLocationInfo(location) {
-      this.location.local_time = location.localtime
-      this.location.city = location.name
-      this.location.region = location.region
-      this.location.country = location.country
+    setLocationInfo({ localtime, name, region, country }) {
+      this.location.local_time = localtime
+      this.location.city = name
+      this.location.region = region
+      this.location.country = country
 
       //format location
-      this.location.formattedLocation = location.name + (location.region ? `, ${location.region}` : '')
+      this.location.formattedLocation = name + (region ? `, ${region}` : '')
     },
     formatTime() {
       //formatted local time and date
