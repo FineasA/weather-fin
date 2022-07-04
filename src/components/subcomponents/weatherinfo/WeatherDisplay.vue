@@ -76,6 +76,12 @@ const displayedTemp = computed(() => temp_mode.value === 'f' ? temp_f : temp_c)
         align-items: center
         max-width: 100px
         width: 100%
+        button:first-child
+          border-top-left-radius: 5px
+          border-bottom-left-radius: 5px
+        button:last-child
+          border-top-right-radius: 5px
+          border-bottom-right-radius: 5px
         button
           width: 70px
           height: 30px

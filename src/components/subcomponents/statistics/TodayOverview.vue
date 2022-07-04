@@ -153,9 +153,13 @@ const {
             border-top-right-radius: 5px
             border-bottom-right-radius: 5px
           button
+            display: flex
+            justify-content: center
+            align-items: center
+            padding: 15px
             font-weight: bold
-            width: 100%
             height: 25px
+            width: 60px
             background-color: #9eacc7
             border: none
             color: #fff
