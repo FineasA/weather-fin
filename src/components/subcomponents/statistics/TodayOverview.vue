@@ -153,14 +153,15 @@ const {
             border-top-right-radius: 5px
             border-bottom-right-radius: 5px
           button
+            font-weight: bold
             width: 100%
             height: 25px
-            background-color: #a6c0ef
+            background-color: #9eacc7
             border: none
             color: #fff
             cursor: pointer
             &.active
-              background-color: #2c70ea
+              background-color: #224c87
     .overview-grid
       display: grid
       grid-template-columns: repeat(2, 1fr)
