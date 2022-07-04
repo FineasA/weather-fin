@@ -4,7 +4,7 @@ import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 import { computed } from 'vue'
 
 const { setTemperatureMode } = useCurrentWeatherStore()
-const { current, temp_mode, condition } = storeToRefs(useCurrentWeatherStore())
+const { current, temp_mode } = storeToRefs(useCurrentWeatherStore())
 
 const displayedTemp = computed(() => temp_mode.value === 'f' ? current.value.temp_f : current.value.temp_c)
 </script>
@@ -33,7 +33,7 @@ const displayedTemp = computed(() => temp_mode.value === 'f' ? current.value.tem
       <div class="weather-display-row">
         <h2>{{ displayedTemp }}&deg;{{ temp_mode.toUpperCase() }}</h2>
         <div class="weather-type">
-          <p>{{ condition.text }}</p>
+          <p>{{ current.condition.text }}</p>
         </div>
       </div>
     </div>

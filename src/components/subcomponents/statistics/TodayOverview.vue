@@ -1,16 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 
 const { setWindSpeedMode, setPressureMode } = useCurrentWeatherStore()
 const {
   forecast,
-  uv,
-  wind_kph,
-  wind_mph,
-  pressure_mb,
-  pressure_in,
+  current,
+  daily,
   wind_speed_mode,
   pressure_mode
 } = storeToRefs(useCurrentWeatherStore())
@@ -59,7 +55,7 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">Wind Speed</h3>
-              <h2>{{ wind_speed_mode === 'kmh' ? wind_kph + ' kmh' : wind_mph + ' mph' }}</h2>
+              <h2>{{ wind_speed_mode === 'kmh' ? current.wind_kph + ' kmh' : current.wind_mph + ' mph' }}</h2>
             </div>
             <div class="stat-growth">
               <img class="down" src="../../../assets/svg/down-arrow.svg" alt="">
@@ -73,7 +69,7 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">Rain Chance</h3>
-              <h2>{{ forecast.hour[0].chance_of_rain }}</h2>
+              <h2>{{ daily.daily_chance_of_rain }}</h2>
             </div>
             <div class="stat-growth">
               <img src="../../../assets/svg/up-arrow.svg" alt="" class="up">
@@ -87,7 +83,7 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">Pressure</h3>
-              <h2>{{ pressure_mode === 'pascal' ? pressure_in + ' p' : pressure_mb + ' mbar' }}</h2>
+              <h2>{{ pressure_mode === 'pascal' ? current.pressure_in + ' p' : current.pressure_mb + ' mbar' }}</h2>
             </div>
             <div class="stat-growth">
               <img src="../../../assets/svg/up-arrow.svg" alt="" class="up">
@@ -101,7 +97,7 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">UV Index</h3>
-              <h2>{{uv}}</h2>
+              <h2>{{daily.uv}}</h2>
             </div>
             <div class="stat-growth">
               <img src="../../../assets/svg/down-arrow.svg" alt="" class="down">
