@@ -21,9 +21,39 @@ const {
     <div class="today-overview-wrapper">
       <div class="first-overview-row">
         <h2>Today overview</h2>
+        <div class="controls">
+          <div class="metric-controls">
+            <button
+              :class="{'active' : wind_speed_mode === 'kmh'}"
+              @click="setWindSpeedMode('kmh')"
+            >
+              kmh
+            </button>
+            <button
+              :class="{'active' : wind_speed_mode === 'mph'}"
+              @click="setWindSpeedMode('mph')"
+            >
+              mph
+            </button>
+          </div>
+
+          <div class="metric-controls">
+            <button
+              :class="{'active' : pressure_mode === 'pascal'}"
+              @click="setPressureMode('pascal')"
+            >
+              p
+            </button>
+            <button
+              :class="{'active' : pressure_mode === 'mbar'}"
+              @click="setPressureMode('mbar')"
+            >
+              mbar
+            </button>
+          </div>
+        </div>
       </div>
       <div class="overview-grid">
-
         <div class="grid-item" id="wind-speed">
           <div class="grid-item-wrapper">
             <div class="icon"></div>
@@ -31,26 +61,9 @@ const {
               <h3 class="title">Wind Speed</h3>
               <h2>{{ wind_speed_mode === 'kmh' ? wind_kph + ' kmh' : wind_mph + ' mph' }}</h2>
             </div>
-            <div class="controls">
-              <div class="metric-controls">
-                <button
-                  :class="{'active' : wind_speed_mode === 'kmh'}"
-                  @click="setWindSpeedMode('kmh')"
-                >
-                  kmh
-                </button>
-                <button
-                  :class="{'active' : wind_speed_mode === 'mph'}"
-                  @click="setWindSpeedMode('mph')"
-                >
-                  mph
-                </button>
-              </div>
-
-              <div class="stat-growth">
-                <img class="down" src="../../../assets/svg/down-arrow.svg" alt="">
-                <p>2km/h</p>
-              </div>
+            <div class="stat-growth">
+              <img class="down" src="../../../assets/svg/down-arrow.svg" alt="">
+              <p>2km/h</p>
             </div>
           </div>
         </div>
@@ -76,25 +89,9 @@ const {
               <h3 class="title">Pressure</h3>
               <h2>{{ pressure_mode === 'pascal' ? pressure_in + ' p' : pressure_mb + ' mbar' }}</h2>
             </div>
-            <div class="controls">
-              <div class="metric-controls">
-                <button
-                  :class="{'active' : pressure_mode === 'pascal'}"
-                  @click="setPressureMode('pascal')"
-                >
-                  p
-                </button>
-                <button
-                  :class="{'active' : pressure_mode === 'mbar'}"
-                  @click="setPressureMode('mbar')"
-                >
-                  mbar
-                </button>
-              </div>
-              <div class="stat-growth">
-                <img src="../../../assets/svg/up-arrow.svg" alt="" class="up">
-                <p>32 hpa</p>
-              </div>
+            <div class="stat-growth">
+              <img src="../../../assets/svg/up-arrow.svg" alt="" class="up">
+              <p>32 hpa</p>
             </div>
           </div>
         </div>
@@ -137,6 +134,33 @@ const {
       justify-content: space-between
       align-items: center
       width: 100%
+      .controls
+        display: flex
+        justify-content: center
+        align-items: center
+        max-width: 200px
+        width: 100%
+        gap: 10px
+        .metric-controls
+          display: flex
+          justify-content: center
+          align-items: center
+          width: 100%
+          button:first-child
+            border-top-left-radius: 5px
+            border-bottom-left-radius: 5px
+          button:last-child
+            border-top-right-radius: 5px
+            border-bottom-right-radius: 5px
+          button
+            width: 100%
+            height: 25px
+            background-color: #a6c0ef
+            border: none
+            color: #fff
+            cursor: pointer
+            &.active
+              background-color: #2c70ea
     .overview-grid
       display: grid
       grid-template-columns: repeat(2, 1fr)
@@ -179,14 +203,6 @@ const {
             h2
               font-size: 26px
               letter-spacing: 1.5px
-          .controls
-            display: flex
-            flex-direction: column
-            justify-content: center
-            align-items: center
-            max-width: 80px
-            width: 100%
-            gap: 5px
           .stat-growth
             display: flex
             justify-content: center
@@ -204,28 +220,6 @@ const {
                 filter: invert(85%) sepia(54%) saturate(5777%) hue-rotate(300deg) brightness(117%) contrast(109%)
               &.up
                 filter: invert(27%) sepia(63%) saturate(4007%) hue-rotate(214deg) brightness(102%) contrast(100%)
-          .metric-controls
-            display: flex
-            justify-content: center
-            align-items: center
-            width: 100%
-            button:first-child
-              border-top-left-radius: 5px
-              border-bottom-left-radius: 5px
-            button:last-child
-              border-top-right-radius: 5px
-              border-bottom-right-radius: 5px
-            button
-              width: 100%
-              height: 25px
-              background-color: #a6c0ef
-              border: none
-              color: #fff
-              cursor: pointer
-              &.active
-                background-color: #2c70ea
-
-
       .grid-item#wind-speed .icon
         background: url("../../../assets/svg/weather/wind.svg") center / contain no-repeat
       .grid-item#rain-chance .icon
