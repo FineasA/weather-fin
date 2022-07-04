@@ -10,6 +10,23 @@ const requestUrl = `${baseUrl}/${requestParameter}?key=${key}`
 export const useCurrentWeatherStore = defineStore('currentWeather', {
   state: () => ({
     locationQuery: 'Chicago',
+    current: {
+      temp_c: 0,
+      temp_f: 0,
+      uv: 0,
+      wind_kph: 0,
+      wind_mph: 0,
+      pressure_in: 0,
+      pressure_mb: 0,
+      local_time: '',
+      city: '',
+      region: '',
+      country: '',
+      condition: {
+        icon: '',
+        text: ''
+      },
+    },
     temp_c: 0,
     temp_f: 0,
     uv: 0,
@@ -65,6 +82,18 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
     setPressureMode(mode) {
       this.pressure_mode = mode
     },
+    setCurrentWeather(current) {
+      //extract current temperature data
+      this.current.temp_c = current.temp_c
+      this.current.temp_f = current.temp_f
+      this.current.uv = current.uv
+      this.current.wind_kph = current.wind_kph
+      this.current.wind_mph = current.wind_mph
+      this.current.pressure_in = current.pressure_in
+      this.current.pressure_mb = current.pressure_mb
+      this.current.condition.icon = current.condition.icon
+      this.current.condition.text = current.condition.text
+    },
     async requestCurrentWeather(location) {
       const q = `&q=${location}&days=2`
       const url = requestUrl + q
@@ -72,16 +101,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
         .then(({ data }) => {
           const { current, location, forecast } = data
 
-          //extract current temperature data
-          this.temp_c = current.temp_c
-          this.temp_f = current.temp_f
-          this.uv = current.uv
-          this.wind_kph = current.wind_kph
-          this.wind_mph = current.wind_mph
-          this.pressure_in = current.pressure_in
-          this.pressure_mb = current.pressure_mb
-          this.condition.icon = current.condition.icon
-          this.condition.text = current.condition.text
+          this.setCurrentWeather(current)
 
           this.local_time = location.localtime
           this.city = location.name

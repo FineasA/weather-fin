@@ -4,16 +4,16 @@ import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 import { computed } from 'vue'
 
 const { setTemperatureMode } = useCurrentWeatherStore()
-const { temp_c, temp_f, temp_mode, condition } = storeToRefs(useCurrentWeatherStore())
+const { current, temp_mode, condition } = storeToRefs(useCurrentWeatherStore())
 
-const displayedTemp = computed(() => temp_mode.value === 'f' ? temp_f : temp_c)
+const displayedTemp = computed(() => temp_mode.value === 'f' ? current.value.temp_f : current.value.temp_c)
 </script>
 
 <template>
   <div class="weather-display-container">
     <div class="weather-display-wrapper">
       <div class="weather-icon-row">
-        <img :src="condition.icon" alt="">
+        <img :src="current.condition.icon" alt="">
 
         <div class="temp-controls">
           <button
