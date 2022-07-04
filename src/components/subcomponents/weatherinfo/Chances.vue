@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 
 const { forecast } = storeToRefs(useCurrentWeatherStore())
-console.log('forecast inside chances:', forecast.value)
 </script>
 
 <template>

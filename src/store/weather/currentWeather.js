@@ -39,18 +39,31 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
         hours_to_sunrise: 0,
         hours_to_sunset: 0
       },
-      hour: []
+      hour: [
+        {
+          chance_of_rain: 0,
+          chance_of_snow: 0,
+          temp_c: 0,
+          temp_f: 70.3,
+          uv: 0,
+          time: new Date()
+        }
+      ]
     },
     formattedLocation: '',
     temp_mode: 'c',
-    metric_system: 'metric'
+    wind_speed_mode: 'kmh',
+    pressure_mode: 'pascal'
   }),
   actions: {
     setTemperatureMode(mode) {
       this.temp_mode = mode
     },
-    setMetricMode(mode) {
-      this.metric_system = mode
+    setWindSpeedMode(mode) {
+      this.wind_speed_mode = mode
+    },
+    setPressureMode(mode) {
+      this.pressure_mode = mode
     },
     async requestCurrentWeather(location) {
       const q = `&q=${location}`

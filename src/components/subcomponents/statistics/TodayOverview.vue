@@ -1,15 +1,18 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
 
-const { setMetricMode } = useCurrentWeatherStore()
+const { setWindSpeedMode, setPressureMode } = useCurrentWeatherStore()
 const {
+  forecast,
   uv,
   wind_kph,
   wind_mph,
   pressure_mb,
   pressure_in,
-  metric_system
+  wind_speed_mode,
+  pressure_mode
 } = storeToRefs(useCurrentWeatherStore())
 </script>
 
@@ -18,21 +21,6 @@ const {
     <div class="today-overview-wrapper">
       <div class="first-overview-row">
         <h2>Today overview</h2>
-
-        <div class="metric-controls">
-          <button
-            :class="{'active' : metric_system === 'metric'}"
-            @click="setMetricMode('metric')"
-          >
-            met.
-          </button>
-          <button
-            :class="{'active' : metric_system === 'imperial'}"
-            @click="setMetricMode('imperial')"
-          >
-            imp.
-          </button>
-        </div>
       </div>
       <div class="overview-grid">
 
@@ -41,11 +29,28 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">Wind Speed</h3>
-              <h2>{{ metric_system === 'metric' ? wind_kph : wind_mph }}</h2>
+              <h2>{{ wind_speed_mode === 'kmh' ? wind_kph + ' kmh' : wind_mph + ' mph' }}</h2>
             </div>
-            <div class="stat-growth">
-              <img class="down" src="../../../assets/svg/down-arrow.svg" alt="">
-              <p>2km/h</p>
+            <div class="controls">
+              <div class="metric-controls">
+                <button
+                  :class="{'active' : wind_speed_mode === 'kmh'}"
+                  @click="setWindSpeedMode('kmh')"
+                >
+                  kmh
+                </button>
+                <button
+                  :class="{'active' : wind_speed_mode === 'mph'}"
+                  @click="setWindSpeedMode('mph')"
+                >
+                  mph
+                </button>
+              </div>
+
+              <div class="stat-growth">
+                <img class="down" src="../../../assets/svg/down-arrow.svg" alt="">
+                <p>2km/h</p>
+              </div>
             </div>
           </div>
         </div>
@@ -55,7 +60,7 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">Rain Chance</h3>
-              <h2>24%</h2>
+              <h2>{{ forecast.hour[0].chance_of_rain }}</h2>
             </div>
             <div class="stat-growth">
               <img src="../../../assets/svg/up-arrow.svg" alt="" class="up">
@@ -69,11 +74,27 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">Pressure</h3>
-              <h2>720 hpa</h2>
+              <h2>{{ pressure_mode === 'pascal' ? pressure_in + ' p' : pressure_mb + ' mbar' }}</h2>
             </div>
-            <div class="stat-growth">
-              <img src="../../../assets/svg/up-arrow.svg" alt="" class="up">
-              <p>32 hpa</p>
+            <div class="controls">
+              <div class="metric-controls">
+                <button
+                  :class="{'active' : pressure_mode === 'pascal'}"
+                  @click="setPressureMode('pascal')"
+                >
+                  p
+                </button>
+                <button
+                  :class="{'active' : pressure_mode === 'mbar'}"
+                  @click="setPressureMode('mbar')"
+                >
+                  mbar
+                </button>
+              </div>
+              <div class="stat-growth">
+                <img src="../../../assets/svg/up-arrow.svg" alt="" class="up">
+                <p>32 hpa</p>
+              </div>
             </div>
           </div>
         </div>
@@ -83,7 +104,7 @@ const {
             <div class="icon"></div>
             <div class="stats">
               <h3 class="title">UV Index</h3>
-              <h2>2,3</h2>
+              <h2>{{uv}}</h2>
             </div>
             <div class="stat-growth">
               <img src="../../../assets/svg/down-arrow.svg" alt="" class="down">
@@ -116,15 +137,6 @@ const {
       justify-content: space-between
       align-items: center
       width: 100%
-      .metric-controls button
-        width: 70px
-        height: 30px
-        background-color: #a6c0ef
-        border: none
-        color: #fff
-        cursor: pointer
-        &.active
-          background-color: #2c70ea
     .overview-grid
       display: grid
       grid-template-columns: repeat(2, 1fr)
@@ -167,6 +179,14 @@ const {
             h2
               font-size: 26px
               letter-spacing: 1.5px
+          .controls
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            max-width: 80px
+            width: 100%
+            gap: 5px
           .stat-growth
             display: flex
             justify-content: center
@@ -184,6 +204,26 @@ const {
                 filter: invert(85%) sepia(54%) saturate(5777%) hue-rotate(300deg) brightness(117%) contrast(109%)
               &.up
                 filter: invert(27%) sepia(63%) saturate(4007%) hue-rotate(214deg) brightness(102%) contrast(100%)
+          .metric-controls
+            display: flex
+            justify-content: center
+            align-items: center
+            width: 100%
+            button:first-child
+              border-top-left-radius: 5px
+              border-bottom-left-radius: 5px
+            button:last-child
+              border-top-right-radius: 5px
+              border-bottom-right-radius: 5px
+            button
+              width: 100%
+              height: 25px
+              background-color: #a6c0ef
+              border: none
+              color: #fff
+              cursor: pointer
+              &.active
+                background-color: #2c70ea
 
 
       .grid-item#wind-speed .icon
