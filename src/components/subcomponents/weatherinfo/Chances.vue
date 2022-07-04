@@ -39,7 +39,10 @@ const { forecast } = storeToRefs(useCurrentWeatherStore())
   .weather-chances-wrapper
     display: flex
     flex-direction: column
-    justify-content: center
+    margin: auto
+    padding: 0 10px
+    height: 350px
+    overflow: auto
     gap: 10px
     width: 100%
     .chance-item
@@ -64,4 +67,21 @@ const { forecast } = storeToRefs(useCurrentWeatherStore())
             height: 100%
     h2
       text-align: left
+
+/* width */
+::-webkit-scrollbar
+  width: 5px
+  margin-left: 5px
+
+/* Track */
+::-webkit-scrollbar-track
+  background: #f1f1f1
+
+/* Handle */
+::-webkit-scrollbar-thumb
+  background: #244366
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover
+  background: #81b3ff
 </style>
