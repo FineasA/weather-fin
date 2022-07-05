@@ -64,7 +64,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
         hours_to_sunrise: 0,
         hours_to_sunset: 0
       },
-      hour: [
+      hourly_data: [
         {
           chance_of_rain: 0,
           chance_of_snow: 0,
@@ -73,7 +73,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
           uv: 0,
           time: new Date()
         }
-      ]
+      ],
     },
     temp_mode: 'c',
     wind_speed_mode: 'kmh',
@@ -84,7 +84,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
   },
   actions: {
     async requestCurrentWeather(location) {
-      const q = `&q=${location}&days=2`
+      const q = `&q=${location}&days=3`
       const url = requestUrl + q
       await axios.get(url)
         .then(({ data }) => {
@@ -143,12 +143,13 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       //get all hours from forecastday obj
       const hours = forecastday.map(forecast => forecast.hour)
       hours[0] = hours[0].splice(current_hour, hour.length, 0)
-      const flattened = hours.flat()
+
+      //get hourly_data for chances component
+      this.forecast.hourly_data = [...hours[0], ...hours[1]]
+
+      // const monthly_weather_data = hours.flat()
 
       this.setForecastAstro(astro, date)
-
-      //we only want to get all the hours that have not come to be (inclusive)
-      this.forecast.hour = flattened
     },
     setForecastAstro(astro, date) {
       this.forecast.astro.sunrise = astro.sunrise
