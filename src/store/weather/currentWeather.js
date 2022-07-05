@@ -147,7 +147,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', {
       //get hourly_data for chances component
       this.forecast.hourly_data = [...hours[0], ...hours[1]]
 
-      const monthly_weather_data = hours.flat()
+      // const monthly_weather_data = hours.flat()
 
       this.setForecastAstro(astro, date)
     },

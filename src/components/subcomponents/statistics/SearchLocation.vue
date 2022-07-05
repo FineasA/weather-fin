@@ -2,12 +2,12 @@
 import { ref, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
-import { useWeatherHistoryStore } from '@/store/weather/weatherHistory'
+// import { useWeatherHistoryStore } from '@/store/weather/weatherHistory'
 
 const { requestCurrentWeather } = useCurrentWeatherStore()
 const { locationQuery, location } = storeToRefs(useCurrentWeatherStore())
 
-const { requestWeatherHistory } = useWeatherHistoryStore()
+// const { requestWeatherHistory } = useWeatherHistoryStore()
 
 const userQuery = ref('')
 
