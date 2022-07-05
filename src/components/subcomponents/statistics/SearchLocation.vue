@@ -2,19 +2,25 @@
 import { ref, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
+import { useWeatherHistoryStore } from '@/store/weather/weatherHistory'
 
 const { requestCurrentWeather } = useCurrentWeatherStore()
 const { locationQuery, location } = storeToRefs(useCurrentWeatherStore())
+
+const { requestWeatherHistory } = useWeatherHistoryStore()
 
 const userQuery = ref('')
 
 const search = () => {
   requestCurrentWeather(userQuery.value)
+  requestWeatherHistory(userQuery.value)
   userQuery.value = ''
 }
 
 onBeforeMount(() => {
   requestCurrentWeather(locationQuery.value)
+  //TODO: On hold because cannot find a free API for previous 30 days
+  // requestWeatherHistory(locationQuery.value)
 })
 </script>
 
