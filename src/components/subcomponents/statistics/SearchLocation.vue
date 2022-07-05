@@ -13,7 +13,7 @@ const userQuery = ref('')
 
 const search = () => {
   requestCurrentWeather(userQuery.value)
-  requestWeatherHistory(userQuery.value)
+  // requestWeatherHistory(userQuery.value)
   userQuery.value = ''
 }
 
