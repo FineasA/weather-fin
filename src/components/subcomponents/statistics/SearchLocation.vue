@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios'
 import { ref, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
@@ -9,12 +10,75 @@ const { locationQuery, location } = storeToRefs(useCurrentWeatherStore())
 
 // const { requestWeatherHistory } = useWeatherHistoryStore()
 
-const userQuery = ref('')
+let timer
+const waitTime = 500
+const arrowKeyCodes = [37, 38, 39, 40]
 
-const search = () => {
+const userQuery = ref('')
+const showAutoComplete = ref(false)
+const searchResult = ref([])
+const searchResultIndex = ref(0)
+
+const search = (autoCompleteSearch) => {
+  if (autoCompleteSearch) {
+    // userQuery.value = autoCompleteSearch
+    userQuery.value = searchResult.value[searchResultIndex.value].name
+    showAutoComplete.value = false
+    searchResultIndex.value = 0
+  }
+
   requestCurrentWeather(userQuery.value)
   // requestWeatherHistory(userQuery.value)
   userQuery.value = ''
+}
+
+const searchAutocomplete = async () => {
+  const requestParameter = 'search.json'
+  const baseUrl = import.meta.env.VITE_WEATHER_BASE_URL
+  const key = import.meta.env.VITE_WEATHER_API_KEY
+  const requestUrl = `${baseUrl}/${requestParameter}?key=${key}`
+  const q = `&q=${userQuery.value}`
+  const url = requestUrl + q
+
+  await axios.get(url)
+    .then(({ data }) => {
+      searchResult.value = data
+      showAutoComplete.value = true
+    })
+}
+
+const searchAutocompleteHandler = (e) => {
+  if (arrowKeyCodes.includes(e.keyCode)) return
+  searchResultIndex.value = 0
+  showAutoComplete.value = false
+  if (!userQuery.value.length) return
+
+  clearTimeout(timer)
+
+  timer = setTimeout(async () => {
+    await searchAutocomplete()
+  }, waitTime)
+}
+
+const searchAutoCompleteKeyHandler = (e) => {
+  if (!arrowKeyCodes.includes(e.keyCode)) return
+
+  switch(e.keyCode) {
+    case 38: //up arrow
+      searchResultIndex.value--
+      break
+    case 40: //down arrow
+      searchResultIndex.value++
+      break
+  }
+
+  if (searchResultIndex.value === searchResult.value.length) {
+    searchResultIndex.value = 0
+  }
+
+  if (searchResultIndex.value < 0) {
+    searchResultIndex.value = searchResult.value.length - 1
+  }
 }
 
 onBeforeMount(() => {
@@ -27,21 +91,38 @@ onBeforeMount(() => {
 <template>
     <div class="search-location-container">
     <div class="search-location-wrapper">
-
       <div class="current-date-info">
         <h2 class="short-month-info">{{ location.formattedDate.monthAndYear }}</h2>
         <p class="month-muted">{{ location.formattedDate.fullDate }}</p>
       </div>
 
       <div class="info-container">
-        <label>
-          <input
-            type="text"
-            placeholder="Search location here"
-            v-model="userQuery"
-            @keyup.enter="search"
-          />
-        </label>
+        <div class="search-container">
+          <label>
+            <span class="auto-complete-container">
+              <ul
+                v-if="showAutoComplete"
+                class="auto-complete-list"
+              >
+                <li
+                  @click="search(result.name)"
+                  v-for="(result, index) in searchResult"
+                  :class="{'selected' : searchResultIndex === index}"
+                >
+                  {{result.name}}
+                </li>
+              </ul>
+            </span>
+            <input
+              type="text"
+              placeholder="Search location here"
+              v-model="userQuery"
+              @keyup.enter="search"
+              @keyup="searchAutocompleteHandler($event)"
+              @keyup.down.up="searchAutoCompleteKeyHandler"
+            />
+          </label>
+        </div>
 
         <div class="nav-tool notifications">
           <img src="../../../assets/svg/bell.svg" alt="">
@@ -82,6 +163,37 @@ onBeforeMount(() => {
       justify-content: flex-end
       align-items: center
       gap: 20px
+      .search-container
+        width: 100%
+        max-width: 320px
+        margin-right: 40px
+        position: relative
+        .auto-complete-container
+          width: 100%
+          position: absolute
+          top: 100%
+          left: 0
+          z-index: 2
+          box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1)
+          border-bottom-left-radius: 10px
+          background-color: #fff
+          border-bottom-right-radius: 10px
+          ul
+            li:nth-child(odd)
+              background-color: #eee
+            li
+              display: flex
+              justify-content: flex-start
+              align-items: center
+              list-style: none
+              text-align: left
+              height: 30px
+              padding: 5px 10px
+              cursor: pointer
+              &.selected
+                background-color: #d7d6d6
+              &:hover
+                background-color: #d7d6d6
       .nav-tool
         display: flex
         justify-content: center
