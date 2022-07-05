@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import { LineChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
 
@@ -25,7 +24,7 @@ const testData = {
 <template>
   <div class="avg-weekly-temp-container">
     <div class="avg-weekly-temp-wrapper">
-      <h2>Average Weekly Temperature</h2>
+      <h2>Daily Hourly Temperature</h2>
       <div class="chart-container">
         <LineChart :styles="chartStyle" ref="lineChart" :chartData="testData"/>
       </div>
