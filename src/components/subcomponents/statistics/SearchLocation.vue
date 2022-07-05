@@ -12,15 +12,19 @@ const { locationQuery, location } = storeToRefs(useCurrentWeatherStore())
 
 let timer
 const waitTime = 500
+const arrowKeyCodes = [37, 38, 39, 40]
 
 const userQuery = ref('')
 const showAutoComplete = ref(false)
 const searchResult = ref([])
+const searchResultIndex = ref(0)
 
-const search = (search) => {
-  if (search) {
-    userQuery.value = search
+const search = (autoCompleteSearch) => {
+  if (autoCompleteSearch) {
+    // userQuery.value = autoCompleteSearch
+    userQuery.value = searchResult.value[searchResultIndex.value].name
     showAutoComplete.value = false
+    searchResultIndex.value = 0
   }
 
   requestCurrentWeather(userQuery.value)
@@ -38,13 +42,14 @@ const searchAutocomplete = async () => {
 
   await axios.get(url)
     .then(({ data }) => {
-      console.log('data', data)
       searchResult.value = data
       showAutoComplete.value = true
     })
 }
 
-const searchAutocompleteHandler = () => {
+const searchAutocompleteHandler = (e) => {
+  if (arrowKeyCodes.includes(e.keyCode)) return
+  searchResultIndex.value = 0
   showAutoComplete.value = false
   if (!userQuery.value.length) return
 
@@ -53,6 +58,27 @@ const searchAutocompleteHandler = () => {
   timer = setTimeout(async () => {
     await searchAutocomplete()
   }, waitTime)
+}
+
+const searchAutoCompleteKeyHandler = (e) => {
+  if (!arrowKeyCodes.includes(e.keyCode)) return
+
+  switch(e.keyCode) {
+    case 38: //up arrow
+      searchResultIndex.value--
+      break
+    case 40: //down arrow
+      searchResultIndex.value++
+      break
+  }
+
+  if (searchResultIndex.value === searchResult.value.length) {
+    searchResultIndex.value = 0
+  }
+
+  if (searchResultIndex.value < 0) {
+    searchResultIndex.value = searchResult.value.length - 1
+  }
 }
 
 onBeforeMount(() => {
@@ -73,28 +99,29 @@ onBeforeMount(() => {
       <div class="info-container">
         <div class="search-container">
           <label>
+            <span class="auto-complete-container">
+              <ul
+                v-if="showAutoComplete"
+                class="auto-complete-list"
+              >
+                <li
+                  @click="search(result.name)"
+                  v-for="(result, index) in searchResult"
+                  :class="{'selected' : searchResultIndex === index}"
+                >
+                  {{result.name}}
+                </li>
+              </ul>
+            </span>
             <input
               type="text"
               placeholder="Search location here"
               v-model="userQuery"
               @keyup.enter="search"
-              @keyup="searchAutocompleteHandler"
+              @keyup="searchAutocompleteHandler($event)"
+              @keyup.down.up="searchAutoCompleteKeyHandler"
             />
           </label>
-
-          <div class="auto-complete-container">
-            <ul
-              v-if="showAutoComplete"
-              class="auto-complete-list"
-            >
-              <li
-                @click="search(result.name)"
-                v-for="result in searchResult"
-              >
-                {{result.name}}
-              </li>
-            </ul>
-          </div>
         </div>
 
         <div class="nav-tool notifications">
@@ -163,6 +190,8 @@ onBeforeMount(() => {
               height: 30px
               padding: 5px 10px
               cursor: pointer
+              &.selected
+                background-color: #d7d6d6
               &:hover
                 background-color: #d7d6d6
       .nav-tool
