@@ -5,7 +5,7 @@ import WeatherInfo from '@/components/WeatherInfo.vue'
 
 <template>
   <div class="container">
-    <div class="wrapper">
+    <div class="wrapper statistics-wrapper">
       <Statistics/>
     </div>
     <WeatherInfo/>
@@ -14,5 +14,10 @@ import WeatherInfo from '@/components/WeatherInfo.vue'
 
 <style lang="sass">
 @import "src/assets/styles/main"
+
+.statistics-wrapper
+  margin: 0 auto
+  overflow: auto
+  height: 100vh
 </style>
 

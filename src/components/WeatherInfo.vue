@@ -22,6 +22,7 @@ import SunsetAndSunriseInfo from '@/components/subcomponents/weatherinfo/Sunrise
   display: flex
   flex-direction: column
   justify-content: flex-start
+  align-self: stretch
   gap: 20px
   align-items: center
   max-width: 400px
