@@ -1,7 +1,7 @@
 <script setup>
 import SearchLocation from '@/components/subcomponents/statistics/SearchLocation.vue'
 import TodayOverview from '@/components/subcomponents/statistics/TodayOverview.vue'
-import AverageWeeklyTemp from '@/components/subcomponents/statistics/AverageWeeklyTemp.vue'
+import HourlyTemperature from '@/components/subcomponents/statistics/HourlyTemperature.vue'
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import AverageWeeklyTemp from '@/components/subcomponents/statistics/AverageWeek
     <SearchLocation/>
     <hr class="divider"/>
     <TodayOverview/>
-    <AverageWeeklyTemp/>
+    <HourlyTemperature/>
   </div>
 </template>
 
@@ -18,6 +18,6 @@ import AverageWeeklyTemp from '@/components/subcomponents/statistics/AverageWeek
   display: flex
   flex-direction: column
   align-items: center
-  justify-content: center
+  height: 100%
   width: 100%
 </style>

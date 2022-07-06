@@ -3,15 +3,11 @@ import axios from 'axios'
 import { ref, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
-// import { useWeatherHistoryStore } from '@/store/weather/weatherHistory'
-
 const { requestCurrentWeather } = useCurrentWeatherStore()
 const { locationQuery, location } = storeToRefs(useCurrentWeatherStore())
 
-// const { requestWeatherHistory } = useWeatherHistoryStore()
-
 let timer
-const waitTime = 500
+const waitTime = 200
 const arrowKeyCodes = [37, 38, 39, 40]
 
 const userQuery = ref('')
@@ -20,15 +16,18 @@ const searchResult = ref([])
 const searchResultIndex = ref(0)
 
 const search = (autoCompleteSearch) => {
+  if (!showAutoComplete.value) return
+
   if (autoCompleteSearch) {
-    // userQuery.value = autoCompleteSearch
-    userQuery.value = searchResult.value[searchResultIndex.value].name
+    console.log(searchResult.value)
+    if (Object.keys(searchResult.value).length > 0) {
+      userQuery.value = searchResult.value[searchResultIndex.value].name
+    }
     showAutoComplete.value = false
     searchResultIndex.value = 0
   }
 
   requestCurrentWeather(userQuery.value)
-  // requestWeatherHistory(userQuery.value)
   userQuery.value = ''
 }
 
@@ -83,8 +82,6 @@ const searchAutoCompleteKeyHandler = (e) => {
 
 onBeforeMount(() => {
   requestCurrentWeather(locationQuery.value)
-  //TODO: On hold because cannot find a free API for previous 30 days
-  // requestWeatherHistory(locationQuery.value)
 })
 </script>
 

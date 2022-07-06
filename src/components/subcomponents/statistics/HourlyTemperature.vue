@@ -1,31 +1,43 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { format } from 'date-fns'
+import { storeToRefs } from 'pinia'
 import { LineChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
 
 Chart.register(...registerables)
 
+import { useCurrentWeatherStore } from '@/store/weather/currentWeather'
+const { forecast, temp_mode } = storeToRefs(useCurrentWeatherStore())
+
+const displayed_temp_mode = computed(() => temp_mode.value === 'c' ? 'temp_c' : 'temp_f')
+const temperatures = computed(() => forecast.value.hourly_data.map(hourly_data => hourly_data[displayed_temp_mode.value]))
+const times = computed(() => forecast.value.hourly_data.map(hourly_data => format(new Date(hourly_data.time), 'HH:mm')))
+
 const chartStyle = {
   backgroundColor: '#fcfbfc',
   borderRadius: '5px',
+  padding: '20px',
+  width: '100%',
+  height: '320px',
 }
 
-const testData = {
-  labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7'],
+const testData = computed(() => ({
+  labels: times.value,
   datasets: [
     {
-      label: 'Chart.js Line Chart',
-      data: [30, 40, 60, 70, 50, 100, 50],
+      label: 'Temperature',
+      data: temperatures.value,
       backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
     },
   ]
-}
+}))
 </script>
 
 <template>
   <div class="avg-weekly-temp-container">
     <div class="avg-weekly-temp-wrapper">
-      <h2>Average Weekly Temperature</h2>
+      <h2>Daily Hourly Temperature</h2>
       <div class="chart-container">
         <LineChart :styles="chartStyle" ref="lineChart" :chartData="testData"/>
       </div>
