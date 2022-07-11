@@ -163,7 +163,6 @@ onBeforeMount(() => {
       .search-container
         width: 100%
         max-width: 320px
-        margin-right: 40px
         position: relative
         .auto-complete-container
           width: 100%
@@ -222,4 +221,17 @@ onBeforeMount(() => {
         width: 20px
         background: url("../../../assets/svg/search.svg") center / contain no-repeat
         filter: invert(38%) sepia(0%) saturate(0%) hue-rotate(30deg) brightness(93%) contrast(92%)
+
+@media screen and (max-width: 1080px)
+  .search-location-container .search-location-wrapper
+    flex-direction: column
+    .current-date-info
+      display: flex
+      flex-direction: column
+      align-items: center
+      width: 100%
+      gap: 10px
+    .info-container .search-container
+      max-width: unset
+
 </style>

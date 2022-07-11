@@ -35,4 +35,8 @@ import SunsetAndSunriseInfo from '@/components/subcomponents/weatherinfo/Sunrise
     width: 100%
     .divider
       border: 1px solid #2e4d6c
+
+@media screen and (max-width: 680px)
+  .weather-info-container
+    max-width: unset
 </style>

@@ -17,8 +17,6 @@ import WeatherInfo from '@/components/WeatherInfo.vue'
 
 .statistics-wrapper
   margin: 0 auto
-  overflow: auto
-  height: 100vh
 
 /* width */
 ::-webkit-scrollbar

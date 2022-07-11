@@ -134,12 +134,11 @@ const {
         display: flex
         justify-content: center
         align-items: center
-        max-width: 200px
+        max-width: 320px
         width: 100%
-        gap: 10px
         .metric-controls
           display: flex
-          justify-content: center
+          justify-content: flex-end
           align-items: center
           width: 100%
           button:first-child
@@ -236,4 +235,25 @@ const {
   .today-overview-container .today-overview-wrapper .overview-grid
     grid-template-columns: repeat(1, 1fr)
     grid-gap: 10px
+
+@media screen and (max-width: 1080px)
+  .today-overview-container .today-overview-wrapper .first-overview-row
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    gap: 10px
+    .controls .metric-controls
+      justify-content: center
+
+@media screen and (max-width: 680px)
+  .today-overview-container .today-overview-wrapper
+    .overview-grid .grid-item
+      height: unset
+      .grid-item-wrapper
+        flex-direction: column
+        .stat-growth
+          margin-left: unset
+          align-self: unset
+        .stats
+          text-align: center
 </style>
