@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { format } from 'date-fns'
 import { storeToRefs } from 'pinia'
 import { LineChart } from 'vue-chart-3'
@@ -14,14 +14,15 @@ const { setTemperatureMode } = useCurrentWeatherStore()
 const displayed_temp_mode = computed(() => temp_mode.value === 'c' ? 'temp_c' : 'temp_f')
 const temperatures = computed(() => forecast.value.hourly_data.map(hourly_data => hourly_data[displayed_temp_mode.value]))
 const times = computed(() => forecast.value.hourly_data.map(hourly_data => format(new Date(hourly_data.time), 'HH:mm')))
+const chartHeight = ref('320px')
 
-const chartStyle = {
+const chartStyle = computed(() => ({
   backgroundColor: '#fcfbfc',
   borderRadius: '5px',
   padding: '20px',
   width: '100%',
-  height: '320px',
-}
+  height: chartHeight.value,
+}))
 
 const weatherData = computed(() => ({
   labels: times.value,
@@ -33,6 +34,12 @@ const weatherData = computed(() => ({
     },
   ]
 }))
+
+onMounted(() => {
+  window.addEventListener('resize', () => {
+    chartHeight.value = window.innerWidth < 380 ? 'unset' : '320px'
+  })
+})
 </script>
 
 <template>
@@ -125,5 +132,4 @@ canvas, #line-chart
     align-items: center
   .temp-controls
     justify-content: center
-
 </style>

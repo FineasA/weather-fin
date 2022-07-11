@@ -256,4 +256,9 @@ const {
           align-self: unset
         .stats
           text-align: center
+
+@media screen and (max-width: 300px)
+  .today-overview-container .today-overview-wrapper .first-overview-row .controls
+    flex-direction: column
+    gap: 10px
 </style>
